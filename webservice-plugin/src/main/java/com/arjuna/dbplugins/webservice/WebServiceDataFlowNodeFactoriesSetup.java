@@ -20,7 +20,7 @@ public class WebServiceDataFlowNodeFactoriesSetup
     @PostConstruct
     public void setup()
     {
-        DataFlowNodeFactory simpleDataFlowNodeFactory = new WebServiceDataFlowNodeFactory("WebService Data Source Factory", Collections.<String, String>emptyMap());
+        DataFlowNodeFactory simpleDataFlowNodeFactory = new WebServiceDataFlowNodeFactory("WebService Data Flow Node Factories", Collections.<String, String>emptyMap());
 
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(simpleDataFlowNodeFactory);
     }
@@ -28,7 +28,7 @@ public class WebServiceDataFlowNodeFactoriesSetup
     @PreDestroy
     public void cleanup()
     {
-        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("WebService Data Source Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("WebService Data Flow Node Factories");
     }
 
     @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")

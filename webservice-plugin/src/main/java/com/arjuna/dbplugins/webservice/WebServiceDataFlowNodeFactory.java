@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import com.arjuna.databroker.data.DataFlowNode;
 import com.arjuna.databroker.data.DataFlowNodeFactory;
+import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.DataSink;
 import com.arjuna.databroker.data.DataSource;
 import com.arjuna.databroker.data.InvalidClassException;
@@ -45,6 +47,7 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
         List<Class<? extends DataFlowNode>> classes = new LinkedList<Class<? extends DataFlowNode>>();
 
         classes.add(DataSource.class);
+        classes.add(DataProcessor.class);
         classes.add(DataSink.class);
 
         return classes;
@@ -54,7 +57,7 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
     public <T extends DataFlowNode> List<String> getMetaPropertyNames(Class<T> dataFlowNodeClass)
         throws InvalidClassException
     {
-        if (dataFlowNodeClass.equals(DataSource.class) || dataFlowNodeClass.equals(DataSink.class))
+        if (dataFlowNodeClass.equals(DataSource.class) || dataFlowNodeClass.equals(DataProcessor.class) || dataFlowNodeClass.equals(DataSink.class))
             return Collections.emptyList();
         else
             throw new InvalidClassException("Unsupported class", dataFlowNodeClass.getName());
@@ -80,6 +83,13 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
 
                 return propertyNames;
             }
+            else
+                throw new InvalidMetaPropertyException("Unexpecting meta property", null, null);
+        }
+        else if (dataFlowNodeClass.equals(DataProcessor.class))
+        {
+            if (metaProperties.isEmpty())
+                return Collections.emptyList();
             else
                 throw new InvalidMetaPropertyException("Unexpecting meta property", null, null);
         }
@@ -111,6 +121,13 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
         {
             if (metaProperties.isEmpty())
                 return (T) new PullWebServiceDataSource(name, properties);
+            else
+                throw new InvalidMetaPropertyException("No metaproperties expected", null, null);
+        }
+        else if (dataFlowNodeClass.equals(DataProcessor.class))
+        {
+            if (metaProperties.isEmpty())
+                return (T) new Document2TextDataProcessor(name, properties);
             else
                 throw new InvalidMetaPropertyException("No metaproperties expected", null, null);
         }

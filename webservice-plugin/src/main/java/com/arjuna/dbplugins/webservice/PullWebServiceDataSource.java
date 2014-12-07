@@ -45,8 +45,8 @@ public class PullWebServiceDataSource implements DataSource
     public static final String SERVICEURL_PROPERTYNAME         = "Service URL";
     public static final String OPERATIONNAMESPACE_PROPERTYNAME = "Operation Namespace";
     public static final String OPERATIONNAME_PROPERTYNAME      = "Operation Name";
-    public static final String SCHEDULEDELAY_PROPERTYNAME      = "Schedule Delay";
-    public static final String SCHEDULEPERIOD_PROPERTYNAME     = "Schedule Period";
+    public static final String SCHEDULEDELAY_PROPERTYNAME      = "Schedule Delay (ms)";
+    public static final String SCHEDULEPERIOD_PROPERTYNAME     = "Schedule Period (ms)";
     public static final String USERNAME_PROPERTYNAME           = "User Name";
     public static final String PASSWORD_PROPERTYNAME           = "Password";
 
