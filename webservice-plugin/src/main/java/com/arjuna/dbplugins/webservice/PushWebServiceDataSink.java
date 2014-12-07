@@ -2,7 +2,7 @@
  * Copyright (c) 2014, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
-package com.arjuna.dbplugins.webservice.dataflownodes;
+package com.arjuna.dbplugins.webservice;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,36 +24,29 @@ import javax.xml.soap.SOAPPart;
 
 import org.w3c.dom.Document;
 
+import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
-import com.arjuna.databroker.data.DataProvider;
-import com.arjuna.databroker.data.DataSource;
-import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
+import com.arjuna.databroker.data.DataSink;
+import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 
-public class PullWebServiceDataSource extends TimerTask implements DataSource
+public class PushWebServiceDataSink implements DataSink
 {
-    private static final Logger logger = Logger.getLogger(PullWebServiceDataSource.class.getName());
+    private static final Logger logger = Logger.getLogger(PushWebServiceDataSink.class.getName());
 
     public static final String SERVICEURL_PROPERTYNAME         = "Service URL";
     public static final String OPERATIONNAMESPACE_PROPERTYNAME = "Operation Namespace";
     public static final String OPERATIONNAME_PROPERTYNAME      = "Operation Name";
-    public static final String SCHEDULEDELAY_PROPERTYNAME      = "Schedule Delay";
-    public static final String SCHEDULEPERIOD_PROPERTYNAME     = "Schedule Period";
 
-    public PullWebServiceDataSource(String name, Map<String, String> properties)
+    public PushWebServiceDataSink(String name, Map<String, String> properties)
     {
-        logger.log(Level.FINE, "PullWebServiceDataSource: " + name + ", " + properties);
+        logger.log(Level.FINE, "PushWebServiceDataSink: " + name + ", " + properties);
 
-        _name          = name;
-        _properties    = properties;
+        _name       = name;
+        _properties = properties;
 
         _serviceURL         = properties.get(SERVICEURL_PROPERTYNAME);
         _operationNamespace = properties.get(OPERATIONNAMESPACE_PROPERTYNAME);
         _operationName      = properties.get(OPERATIONNAME_PROPERTYNAME);
-        _scheduleDelay      = Long.parseLong(properties.get(SCHEDULEDELAY_PROPERTYNAME));
-        _schedulePeriod     = Long.parseLong(properties.get(SCHEDULEPERIOD_PROPERTYNAME));
-
-        _timer = new Timer(true);
-        _timer.scheduleAtFixedRate(this, _scheduleDelay, _schedulePeriod);
     }
 
     @Override
@@ -94,12 +85,10 @@ public class PullWebServiceDataSource extends TimerTask implements DataSource
     	_dataFlow = dataFlow;
     }
 
-    @Override
-    public void run()
+    public void consume(Document data)
     {
-        logger.log(Level.FINE, "PullWebServiceDataSource.run");
+        logger.log(Level.FINE, "PushWebServiceDataSink.consume");
 
-        Document result = null;
         try
         {
             MessageFactory messageFactory  = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
@@ -109,6 +98,7 @@ public class PullWebServiceDataSource extends TimerTask implements DataSource
             SOAPBody       requestBody     = requestEnvelope.getBody();
             requestEnvelope.addNamespaceDeclaration("oper", _operationNamespace);
             requestBody.addBodyElement(requestEnvelope.createQName(_operationName, "oper"));
+            requestBody.addDocument(data);
 
             if (logger.isLoggable(Level.FINE))
             {
@@ -130,43 +120,29 @@ public class PullWebServiceDataSource extends TimerTask implements DataSource
                 logger.log(Level.FINE, "Responce: " + responceOutputStream.toString());
                 responceOutputStream.close();
             }
-
-            SOAPPart     responcePart     = responce.getSOAPPart();
-            SOAPEnvelope responceEnvelope = responcePart.getEnvelope();
-            SOAPBody     responceBody     = responceEnvelope.getBody();
-
-            result = responceBody.extractContentAsDocument();
         }
         catch (Throwable throwable)
         {
             logger.log(Level.WARNING, "Problems with web service invoke", throwable);
         }
-
-        if (result != null)
-            _dataProvider.produce(result);
-    }
-
-    public void stop()
-    {
-        cancel();
     }
 
     @Override
-    public Collection<Class<?>> getDataProviderDataClasses()
+    public Collection<Class<?>> getDataConsumerDataClasses()
     {
-        Set<Class<?>> dataProviderDataClasses = new HashSet<Class<?>>();
+        Set<Class<?>> dataConsumerDataClasses = new HashSet<Class<?>>();
 
-        dataProviderDataClasses.add(Document.class);
-        
-        return dataProviderDataClasses;
+        dataConsumerDataClasses.add(Document.class);
+
+        return dataConsumerDataClasses;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> DataProvider<T> getDataProvider(Class<T> dataClass)
+    public <T> DataConsumer<T> getDataConsumer(Class<T> dataClass)
     {
         if (dataClass == Document.class)
-            return (DataProvider<T>) _dataProvider;
+            return (DataConsumer<T>) _dataConsumer;
         else
             return null;
     }
@@ -174,14 +150,10 @@ public class PullWebServiceDataSource extends TimerTask implements DataSource
     private String _serviceURL;
     private String _operationNamespace;
     private String _operationName;
-    private Long   _scheduleDelay;
-    private Long   _schedulePeriod;
 
-    private Timer _timer;
-    
     private String                 _name;
     private Map<String, String>    _properties;
     private DataFlow               _dataFlow;
-    @DataProviderInjection
-    private DataProvider<Document> _dataProvider;
+    @DataConsumerInjection(methodName="consume")
+    private DataConsumer<Document> _dataConsumer;
 }

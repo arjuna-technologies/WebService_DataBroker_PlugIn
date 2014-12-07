@@ -18,8 +18,6 @@ import com.arjuna.databroker.data.InvalidNameException;
 import com.arjuna.databroker.data.InvalidPropertyException;
 import com.arjuna.databroker.data.MissingMetaPropertyException;
 import com.arjuna.databroker.data.MissingPropertyException;
-import com.arjuna.dbplugins.webservice.dataflownodes.PushWebServiceDataSink;
-import com.arjuna.dbplugins.webservice.dataflownodes.PullWebServiceDataSource;
 
 public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
 {
@@ -77,6 +75,8 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
                 propertyNames.add(PullWebServiceDataSource.OPERATIONNAME_PROPERTYNAME);
                 propertyNames.add(PullWebServiceDataSource.SCHEDULEDELAY_PROPERTYNAME);
                 propertyNames.add(PullWebServiceDataSource.SCHEDULEPERIOD_PROPERTYNAME);
+                propertyNames.add(PullWebServiceDataSource.USERNAME_PROPERTYNAME);
+                propertyNames.add(PullWebServiceDataSource.PASSWORD_PROPERTYNAME);
 
                 return propertyNames;
             }
