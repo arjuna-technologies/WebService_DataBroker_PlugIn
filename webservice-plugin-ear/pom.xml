@@ -26,6 +26,18 @@
             <version>1.0.0p2m1</version>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>com.arjuna.dbplugins</groupId>
+            <artifactId>xmlmonitor</artifactId>
+            <version>1.0.0p2m1</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.arjuna.dbplugins</groupId>
+            <artifactId>xmlmonitor-endpoint</artifactId>
+            <version>1.0.0p2m1</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -40,6 +52,15 @@
                             <groupId>com.arjuna.dbplugins</groupId>
                             <artifactId>webservice-plugin</artifactId>
                         </ejbModule>
+                        <ejbModule>
+                            <groupId>com.arjuna.dbplugins</groupId>
+                            <artifactId>xmlmonitor</artifactId>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>com.arjuna.dbplugins</groupId>
+                            <artifactId>xmlmonitor-endpoint</artifactId>
+                            <contextRoot>monitor</contextRoot>
+                        </webModule>
                     </modules>
                 </configuration>
             </plugin>
