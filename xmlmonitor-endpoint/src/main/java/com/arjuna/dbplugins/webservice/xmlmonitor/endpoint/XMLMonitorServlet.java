@@ -5,9 +5,11 @@
 package com.arjuna.dbplugins.webservice.xmlmonitor.endpoint;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +21,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
-
 import com.arjuna.dbplugins.webservice.xmlmonitor.CommonDefs;
 import com.arjuna.dbplugins.webservice.xmlmonitor.XMLMonitorJunction;
 
@@ -58,14 +58,23 @@ public class XMLMonitorServlet extends HttpServlet
                     httpServletResponse.setContentType("text/plain");
                     if (document != null)
                     {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+                        PrintWriter printWriter = new PrintWriter(httpServletResponse.getWriter());
+                        printWriter.println("Date: " + dateFormat.format(new Date()));
+                        printWriter.println();
+                        printWriter.flush();
+
                         DOMSource    domSource    = new DOMSource(document);
                         StreamResult streamResult = new StreamResult(httpServletResponse.getWriter());
 
                         TransformerFactory transformerFactory = TransformerFactory.newInstance();
                         Transformer        transformer        = transformerFactory.newTransformer();
-                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+                        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
                         transformer.transform(domSource, streamResult);
+                        printWriter.close();
                     }
                     else
                         logger.log(Level.FINE, "XMLMonitorServlet no content");
