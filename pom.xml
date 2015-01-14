@@ -46,6 +46,8 @@
     </properties>
 
     <modules>
+        <module>xmlmonitor</module>
+        <module>xmlmonitor-endpoint</module>
         <module>webservice-plugin</module>
         <module>webservice-plugin-ear</module>
     </modules>

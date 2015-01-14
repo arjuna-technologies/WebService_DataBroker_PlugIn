@@ -13,4 +13,10 @@
             <module name="deployment.databroker.ear.control-core.jar"/>
         </dependencies>
     </sub-deployment>
+    <sub-deployment name="xmlmonitor-1.0.0p2m1.jar">
+        <dependencies>
+            <module name="deployment.databroker.ear.data-common.jar"/>
+            <module name="deployment.databroker.ear.data-common-jee.jar"/>
+        </dependencies>
+    </sub-deployment>
 </jboss-deployment-structure>

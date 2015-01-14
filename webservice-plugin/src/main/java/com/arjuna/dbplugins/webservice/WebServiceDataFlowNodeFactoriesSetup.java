@@ -12,6 +12,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import com.arjuna.databroker.data.DataFlowNodeFactory;
 import com.arjuna.databroker.data.DataFlowNodeFactoryInventory;
+import com.arjuna.dbplugins.webservice.xmlmonitor.XMLMonitorDataFlowNodeFactory;
 
 @Startup
 @Singleton
@@ -20,15 +21,18 @@ public class WebServiceDataFlowNodeFactoriesSetup
     @PostConstruct
     public void setup()
     {
-        DataFlowNodeFactory simpleDataFlowNodeFactory = new WebServiceDataFlowNodeFactory("WebService Data Flow Node Factories", Collections.<String, String>emptyMap());
+        DataFlowNodeFactory simpleDataFlowNodeFactory    = new WebServiceDataFlowNodeFactory("WebService Data Flow Node Factories", Collections.<String, String>emptyMap());
+        DataFlowNodeFactory xmlmonitorDataServiceFactory = new XMLMonitorDataFlowNodeFactory("XML Monitor Data Service Factory", Collections.<String, String>emptyMap());
 
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(simpleDataFlowNodeFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(xmlmonitorDataServiceFactory);
     }
 
     @PreDestroy
     public void cleanup()
     {
         _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("WebService Data Flow Node Factories");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("XML Monitor Data Service Factory");
     }
 
     @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")

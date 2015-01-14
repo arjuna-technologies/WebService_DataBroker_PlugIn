@@ -13,11 +13,11 @@
         <version>1.0.0p2m1</version>
     </parent>
 
-    <artifactId>webservice-plugin</artifactId>
+    <artifactId>xmlmonitor</artifactId>
 
     <packaging>ejb</packaging>
 
-    <name>WebService DataBroker Plugin</name>
+    <name>XML Monitor</name>
 
     <dependencies>
         <dependency>
@@ -35,12 +35,6 @@
             <groupId>com.arjuna.databroker</groupId>
             <artifactId>data-common-jee</artifactId>
             <version>${version.com.arjuna.databroker}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.arjuna.dbplugins</groupId>
-            <artifactId>xmlmonitor</artifactId>
-            <version>1.0.0p2m1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
