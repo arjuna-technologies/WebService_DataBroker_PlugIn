@@ -35,6 +35,6 @@ public class WebServiceDataFlowNodeFactoriesSetup
         _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("XML Monitor Data Service Factory");
     }
 
-    @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")
+    @EJB(lookup="java:global/databroker/data-core-jee/DataFlowNodeFactoryInventory")
     private DataFlowNodeFactoryInventory _dataFlowNodeFactoryInventory;
 }
