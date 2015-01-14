@@ -29,6 +29,11 @@ public class Document2TextDataProcessor implements DataProcessor
 {
     private static final Logger logger = Logger.getLogger(Document2TextDataProcessor.class.getName());
 
+    public Document2TextDataProcessor()
+    {
+        logger.log(Level.FINE, "Document2TextDataProcessor");
+    }
+
     public Document2TextDataProcessor(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "Document2TextDataProcessor: " + name + ", " + properties);

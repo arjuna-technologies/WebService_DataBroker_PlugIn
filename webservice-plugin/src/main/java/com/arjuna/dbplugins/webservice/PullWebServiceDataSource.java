@@ -50,6 +50,11 @@ public class PullWebServiceDataSource implements DataSource
     public static final String USERNAME_PROPERTYNAME           = "User Name";
     public static final String PASSWORD_PROPERTYNAME           = "Password";
 
+    public PullWebServiceDataSource()
+    {
+        logger.log(Level.FINE, "PullWebServiceDataSource");
+    }
+
     public PullWebServiceDataSource(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "PullWebServiceDataSource: " + name + ", " + properties);

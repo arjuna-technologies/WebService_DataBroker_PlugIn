@@ -22,10 +22,10 @@ public class WebServiceDataFlowNodeFactoriesSetup
     public void setup()
     {
         DataFlowNodeFactory simpleDataFlowNodeFactory    = new WebServiceDataFlowNodeFactory("WebService Data Flow Node Factories", Collections.<String, String>emptyMap());
-        DataFlowNodeFactory xmlmonitorDataServiceFactory = new XMLMonitorDataFlowNodeFactory("XML Monitor Data Service Factory", Collections.<String, String>emptyMap());
+        DataFlowNodeFactory xmlMonitorDataServiceFactory = new XMLMonitorDataFlowNodeFactory("XML Monitor Data Service Factory", Collections.<String, String>emptyMap());
 
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(simpleDataFlowNodeFactory);
-        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(xmlmonitorDataServiceFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(xmlMonitorDataServiceFactory);
     }
 
     @PreDestroy

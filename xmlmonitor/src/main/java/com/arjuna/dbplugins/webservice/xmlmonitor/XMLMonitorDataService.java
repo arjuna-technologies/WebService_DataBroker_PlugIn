@@ -29,6 +29,11 @@ public class XMLMonitorDataService implements DataService
 
     public static final String XMLMONITORID_PROPERTYNAME = "XML Monitor ID";
 
+    public XMLMonitorDataService()
+    {
+        logger.log(Level.FINE, "XMLMonitorDataService");
+    }
+
     public XMLMonitorDataService(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "XMLMonitorDataService: " + name + ", " + properties);

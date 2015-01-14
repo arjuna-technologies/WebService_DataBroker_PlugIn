@@ -37,6 +37,11 @@ public class PushWebServiceDataSink implements DataSink
     public static final String OPERATIONNAMESPACE_PROPERTYNAME = "Operation Namespace";
     public static final String OPERATIONNAME_PROPERTYNAME      = "Operation Name";
 
+    public PushWebServiceDataSink()
+    {
+        logger.log(Level.FINE, "PushWebServiceDataSink");
+    }
+
     public PushWebServiceDataSink(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "PushWebServiceDataSink: " + name + ", " + properties);
