@@ -38,9 +38,9 @@ import com.arjuna.databroker.data.jee.annotation.PostCreated;
 import com.arjuna.databroker.data.jee.annotation.PreDeactivated;
 import com.arjuna.databroker.data.jee.annotation.PreDelete;
 
-public class PullWebServiceDataSource implements DataSource
+public class PullSOAPWebServiceDataSource implements DataSource
 {
-    private static final Logger logger = Logger.getLogger(PullWebServiceDataSource.class.getName());
+    private static final Logger logger = Logger.getLogger(PullSOAPWebServiceDataSource.class.getName());
 
     public static final String SERVICEURL_PROPERTYNAME         = "Service URL";
     public static final String OPERATIONNAMESPACE_PROPERTYNAME = "Operation Namespace";
@@ -50,12 +50,12 @@ public class PullWebServiceDataSource implements DataSource
     public static final String USERNAME_PROPERTYNAME           = "User Name";
     public static final String PASSWORD_PROPERTYNAME           = "Password";
 
-    public PullWebServiceDataSource()
+    public PullSOAPWebServiceDataSource()
     {
         logger.log(Level.FINE, "PullWebServiceDataSource");
     }
 
-    public PullWebServiceDataSource(String name, Map<String, String> properties)
+    public PullSOAPWebServiceDataSource(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "PullWebServiceDataSource: " + name + ", " + properties);
 

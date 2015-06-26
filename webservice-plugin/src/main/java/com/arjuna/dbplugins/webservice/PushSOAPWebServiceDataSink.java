@@ -29,20 +29,20 @@ import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataSink;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 
-public class PushWebServiceDataSink implements DataSink
+public class PushSOAPWebServiceDataSink implements DataSink
 {
-    private static final Logger logger = Logger.getLogger(PushWebServiceDataSink.class.getName());
+    private static final Logger logger = Logger.getLogger(PushSOAPWebServiceDataSink.class.getName());
 
     public static final String SERVICEURL_PROPERTYNAME         = "Service URL";
     public static final String OPERATIONNAMESPACE_PROPERTYNAME = "Operation Namespace";
     public static final String OPERATIONNAME_PROPERTYNAME      = "Operation Name";
 
-    public PushWebServiceDataSink()
+    public PushSOAPWebServiceDataSink()
     {
         logger.log(Level.FINE, "PushWebServiceDataSink");
     }
 
-    public PushWebServiceDataSink(String name, Map<String, String> properties)
+    public PushSOAPWebServiceDataSink(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "PushWebServiceDataSink: " + name + ", " + properties);
 

@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>com.arjuna.dbplugins</groupId>
             <artifactId>webservice-plugin</artifactId>
             <version>${version.com.arjuna.dbplugins.webservice}</version>
@@ -48,6 +53,11 @@
                 <configuration>
                     <includeLibInApplicationXml>true</includeLibInApplicationXml>
                     <modules>
+                        <jarModule>
+                            <groupId>org.jboss.resteasy</groupId>
+                            <artifactId>resteasy-jaxrs</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
                         <ejbModule>
                             <groupId>com.arjuna.dbplugins</groupId>
                             <artifactId>webservice-plugin</artifactId>

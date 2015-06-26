@@ -8,11 +8,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import com.arjuna.databroker.data.DataFlowNode;
 import com.arjuna.databroker.data.DataFlowNodeFactory;
-import com.arjuna.databroker.data.DataProcessor;
-import com.arjuna.databroker.data.DataSink;
 import com.arjuna.databroker.data.DataSource;
 import com.arjuna.databroker.data.InvalidClassException;
 import com.arjuna.databroker.data.InvalidMetaPropertyException;
@@ -21,9 +18,9 @@ import com.arjuna.databroker.data.InvalidPropertyException;
 import com.arjuna.databroker.data.MissingMetaPropertyException;
 import com.arjuna.databroker.data.MissingPropertyException;
 
-public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
+public class JSONWebServiceDataFlowNodeFactory implements DataFlowNodeFactory
 {
-    public WebServiceDataFlowNodeFactory(String name, Map<String, String> properties)
+    public JSONWebServiceDataFlowNodeFactory(String name, Map<String, String> properties)
     {
         _name       = name;
         _properties = properties;
@@ -47,8 +44,6 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
         List<Class<? extends DataFlowNode>> classes = new LinkedList<Class<? extends DataFlowNode>>();
 
         classes.add(DataSource.class);
-        classes.add(DataProcessor.class);
-        classes.add(DataSink.class);
 
         return classes;
     }
@@ -57,7 +52,7 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
     public <T extends DataFlowNode> List<String> getMetaPropertyNames(Class<T> dataFlowNodeClass)
         throws InvalidClassException
     {
-        if (dataFlowNodeClass.equals(DataSource.class) || dataFlowNodeClass.equals(DataProcessor.class) || dataFlowNodeClass.equals(DataSink.class))
+        if (dataFlowNodeClass.equals(DataSource.class))
             return Collections.emptyList();
         else
             throw new InvalidClassException("Unsupported class", dataFlowNodeClass.getName());
@@ -73,35 +68,11 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
             {
                 List<String> propertyNames = new LinkedList<String>();
 
-                propertyNames.add(PullWebServiceDataSource.SERVICEURL_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.OPERATIONNAMESPACE_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.OPERATIONNAME_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.SCHEDULEDELAY_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.SCHEDULEPERIOD_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.USERNAME_PROPERTYNAME);
-                propertyNames.add(PullWebServiceDataSource.PASSWORD_PROPERTYNAME);
-
-                return propertyNames;
-            }
-            else
-                throw new InvalidMetaPropertyException("Unexpecting meta property", null, null);
-        }
-        else if (dataFlowNodeClass.equals(DataProcessor.class))
-        {
-            if (metaProperties.isEmpty())
-                return Collections.emptyList();
-            else
-                throw new InvalidMetaPropertyException("Unexpecting meta property", null, null);
-        }
-        else if (dataFlowNodeClass.equals(DataSink.class))
-        {
-            if (metaProperties.isEmpty())
-            {
-                List<String> propertyNames = new LinkedList<String>();
-
-                propertyNames.add(PushWebServiceDataSink.SERVICEURL_PROPERTYNAME);
-                propertyNames.add(PushWebServiceDataSink.OPERATIONNAMESPACE_PROPERTYNAME);
-                propertyNames.add(PushWebServiceDataSink.OPERATIONNAME_PROPERTYNAME);
+                propertyNames.add(PullJSONWebServiceDataSource.SERVICEURL_PROPERTYNAME);
+                propertyNames.add(PullJSONWebServiceDataSource.SCHEDULEDELAY_PROPERTYNAME);
+                propertyNames.add(PullJSONWebServiceDataSource.SCHEDULEPERIOD_PROPERTYNAME);
+                propertyNames.add(PullJSONWebServiceDataSource.USERNAME_PROPERTYNAME);
+                propertyNames.add(PullJSONWebServiceDataSource.PASSWORD_PROPERTYNAME);
 
                 return propertyNames;
             }
@@ -120,21 +91,7 @@ public class WebServiceDataFlowNodeFactory implements DataFlowNodeFactory
         if (dataFlowNodeClass.equals(DataSource.class))
         {
             if (metaProperties.isEmpty())
-                return (T) new PullWebServiceDataSource(name, properties);
-            else
-                throw new InvalidMetaPropertyException("No metaproperties expected", null, null);
-        }
-        else if (dataFlowNodeClass.equals(DataProcessor.class))
-        {
-            if (metaProperties.isEmpty())
-                return (T) new Document2TextDataProcessor(name, properties);
-            else
-                throw new InvalidMetaPropertyException("No metaproperties expected", null, null);
-        }
-        else if (dataFlowNodeClass.equals(DataSink.class))
-        {
-            if (metaProperties.isEmpty())
-                return (T) new PushWebServiceDataSink(name, properties);
+                return (T) new PullJSONWebServiceDataSource(name, properties);
             else
                 throw new InvalidMetaPropertyException("No metaproperties expected", null, null);
         }
