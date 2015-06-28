@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
+ * Copyright (c) 2014-2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
 package com.arjuna.dbplugins.tests.webservices.json;
@@ -11,20 +11,20 @@ import static org.junit.Assert.*;
 
 public class JSONWebServiceProperties
 {
-    public JSONWebServiceProperties(String ckanAPIPropertiesFilename)
+    public JSONWebServiceProperties(String jsonWebServicePropertiesFilename)
     {
-        _ckanAPIProperties = new Properties();
+        _jsonWebServiceProperties = new Properties();
 
         try
         {
-            FileReader ckanAPIFileReader = new FileReader(ckanAPIPropertiesFilename);
-            _ckanAPIProperties.load(ckanAPIFileReader);
-            ckanAPIFileReader.close();
+            FileReader jsonWebServiceFileReader = new FileReader(jsonWebServicePropertiesFilename);
+            _jsonWebServiceProperties.load(jsonWebServiceFileReader);
+            jsonWebServiceFileReader.close();
             _loaded = true;
         }
         catch (IOException ioException)
         {
-            _ckanAPIProperties = null;
+        	_jsonWebServiceProperties = null;
             _loaded = false;
         }
     }
@@ -34,69 +34,111 @@ public class JSONWebServiceProperties
         return _loaded;
     }
 
-    public String getCKANRootURL()
+    public String getServiceURL()
     {
-        if (_ckanAPIProperties != null)
+        if (_jsonWebServiceProperties != null)
         {
-            String ckanRootURL = _ckanAPIProperties.getProperty("ckanrooturl");
+            String serviceURL = _jsonWebServiceProperties.getProperty("serviceurl");
 
-            if (ckanRootURL != null)
-                return ckanRootURL;
+            if (serviceURL != null)
+                return serviceURL;
             else
             {
-                fail("Failed to obtain \"ckanrooturl\" property");
+                fail("Failed to obtain \"serviceurl\" property");
                 return null;
             }
         }
         else
         {
-            fail("Failed to obtain \"ckanrooturl\" property, no property file");
+            fail("Failed to obtain \"serviceurl\" property, no property file");
             return null;
         }
     }
 
-    public String getPackageId()
+    public String getScheduleDelay()
     {
-        if (_ckanAPIProperties != null)
+        if (_jsonWebServiceProperties != null)
         {
-            String packageId = _ckanAPIProperties.getProperty("package_id");
+            String scheduleDelay = _jsonWebServiceProperties.getProperty("scheduledelay");
 
-            if (packageId != null)
-                return packageId;
+            if (scheduleDelay != null)
+                return scheduleDelay;
             else
             {
-                fail("Failed to obtain \"package_id\" property");
+                fail("Failed to obtain \"scheduledelay\" property");
                 return null;
             }
         }
         else
         {
-            fail("Failed to obtain \"package_id\" property, no property file");
+            fail("Failed to obtain \"scheduledelay\" property, no property file");
             return null;
         }
     }
 
-    public String getAPIKey()
+    public String getSchedulePeriod()
     {
-        if (_ckanAPIProperties != null)
+        if (_jsonWebServiceProperties != null)
         {
-            String apiKey = _ckanAPIProperties.getProperty("apikey");
+            String schedulePeriod = _jsonWebServiceProperties.getProperty("scheduleperiod");
 
-            if (apiKey != null)
-                return apiKey;
+            if (schedulePeriod != null)
+                return schedulePeriod;
             else
             {
-                fail("Failed to obtain \"apikey\" property");
+                fail("Failed to obtain \"scheduleperiod\" property");
                 return null;
             }
         }
         else
         {
-            fail("Failed to obtain \"apikey\" property, no property file");
+            fail("Failed to obtain \"scheduleperiod\" property, no property file");
+            return null;
+        }
+    }
+
+    public String getUserName()
+    {
+        if (_jsonWebServiceProperties != null)
+        {
+            String userName = _jsonWebServiceProperties.getProperty("username");
+
+            if (userName != null)
+                return userName;
+            else
+            {
+                fail("Failed to obtain \"username\" property");
+                return null;
+            }
+        }
+        else
+        {
+            fail("Failed to obtain \"username\" property, no property file");
+            return null;
+        }
+    }
+
+    public String getPassword()
+    {
+        if (_jsonWebServiceProperties != null)
+        {
+            String password = _jsonWebServiceProperties.getProperty("password");
+
+            if (password != null)
+                return password;
+            else
+            {
+                fail("Failed to obtain \"password\" property");
+                return null;
+            }
+        }
+        else
+        {
+            fail("Failed to obtain \"password\" property, no property file");
             return null;
         }
     }
 
     private boolean    _loaded;
-    private Properties _ckanAPIProperties = new Properties();
+    private Properties _jsonWebServiceProperties = new Properties();
 }
