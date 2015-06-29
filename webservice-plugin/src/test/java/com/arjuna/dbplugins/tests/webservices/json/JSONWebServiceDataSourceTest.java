@@ -60,7 +60,7 @@ public class JSONWebServiceDataSourceTest
 
             dataFlowNodeLifeCycleControl.removeDataFlowNode(dummyDataSink);
             dataFlowNodeLifeCycleControl.removeDataFlowNode(pullJSONWebServiceDataSource);
-            
+
             assertEquals("Unexpected received data number", 1, receivedData.size());
         }
         catch (Throwable throwable)

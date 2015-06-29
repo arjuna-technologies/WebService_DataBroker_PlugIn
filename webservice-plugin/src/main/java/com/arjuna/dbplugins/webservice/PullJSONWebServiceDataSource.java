@@ -14,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.util.Base64;
 import org.jboss.resteasy.util.HttpResponseCodes;
 import org.jboss.resteasy.util.GenericType;
@@ -92,6 +93,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     @PostConfig
     public void setup()
     {
+        logger.log(Level.FINER, "PullJSONWebServiceDataSource.setup");
         _serviceURL     = _properties.get(SERVICEURL_PROPERTYNAME);
         _scheduleDelay  = Long.parseLong(_properties.get(SCHEDULEDELAY_PROPERTYNAME));
         _schedulePeriod = Long.parseLong(_properties.get(SCHEDULEPERIOD_PROPERTYNAME));
@@ -102,7 +104,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     @PostActivated
     public void activate()
     {
-        System.err.println("PullJSONWebServiceDataSource.activate");
+        logger.log(Level.FINER, "PullJSONWebServiceDataSource.activate");
         _timer               = new Timer(true);
         _invocationTimerTask = new InvocationTimerTask();
         _timer.scheduleAtFixedRate(_invocationTimerTask, _scheduleDelay, _schedulePeriod);
@@ -112,7 +114,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     @PreDeactivated
     public void deactivate()
     {
-        System.err.println("PullJSONWebServiceDataSource.deactivate");
+        logger.log(Level.FINER, "PullJSONWebServiceDataSource.deactivate");
     	_invocationTimerTask.stop();
         _timer               = null;
         _invocationTimerTask = null;
@@ -127,14 +129,12 @@ public class PullJSONWebServiceDataSource implements DataSource
     {
     	public InvocationTimerTask()
     	{	
-            System.err.println("PullJSONWebServiceDataSource.deactivate");
     	}
 
         @Override
         public void run()
         {
-            logger.log(Level.FINE, "InvocationTimerTask.run");
-            System.err.println("InvocationTimerTask.run");
+            logger.log(Level.FINER, "PullJSONWebServiceDataSource.InvocationTimerTask.run");
 
             String json = null;
             try
@@ -142,7 +142,8 @@ public class PullJSONWebServiceDataSource implements DataSource
             	String        token = _username + ":" + _password;
                 String        base64Token = Base64.encodeBytes(token.getBytes(StandardCharsets.UTF_8));
                 ClientRequest request = new ClientRequest(_serviceURL);
-                request.getHeaders().add("Authorization", "Basic " + base64Token);
+                request.accept(MediaType.APPLICATION_JSON);
+                request.header("Authorization", "Basic " + base64Token);
 
                 ClientResponse<String> response = request.get(new GenericType<String>() {});
 
@@ -151,14 +152,11 @@ public class PullJSONWebServiceDataSource implements DataSource
                 else
                 {
                     logger.log(Level.WARNING, "Problem in getting 'json' " + response.getStatus());
-                    System.err.println("InvocationTimerTask.run");
                 }
             }
             catch (Throwable throwable)
             {
                 logger.log(Level.WARNING, "Problems with web service invoke", throwable);
-                System.err.println("Problems with web service invoke");
-                throwable.printStackTrace(System.err);
             }
 
             if (json != null)
@@ -185,7 +183,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     @SuppressWarnings("unchecked")
     public <T> DataProvider<T> getDataProvider(Class<T> dataClass)
     {
-        if (dataClass == String.class)
+        if (dataClass.isAssignableFrom(String.class))
             return (DataProvider<T>) _dataProvider;
         else
             return null;
