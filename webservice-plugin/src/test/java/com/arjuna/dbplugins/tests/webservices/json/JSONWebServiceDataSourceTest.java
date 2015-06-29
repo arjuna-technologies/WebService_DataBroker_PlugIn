@@ -39,7 +39,7 @@ public class JSONWebServiceDataSourceTest
 
             DataFlowNodeLifeCycleControl dataFlowNodeLifeCycleControl = new TestJEEDataFlowNodeLifeCycleControl();
 
-            String              name       = "FileStoreCKANDataService";
+            String              name       = "PullJSONWebServiceDataSource";
             Map<String, String> properties = new HashMap<String, String>();
             properties.put(PullJSONWebServiceDataSource.SERVICEURL_PROPERTYNAME, jsonWebServiceProperties.getServiceURL());
             properties.put(PullJSONWebServiceDataSource.SCHEDULEDELAY_PROPERTYNAME, jsonWebServiceProperties.getScheduleDelay());
@@ -50,10 +50,10 @@ public class JSONWebServiceDataSourceTest
             PullJSONWebServiceDataSource pullJSONWebServiceDataSource = new PullJSONWebServiceDataSource(name, properties);
             DummyDataSink                dummyDataSink                = new DummyDataSink("Dummy Data Sink", Collections.<String, String>emptyMap());
 
-            ((ObservableDataProvider<String>) pullJSONWebServiceDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) dummyDataSink.getDataConsumer(String.class));
-
             dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), pullJSONWebServiceDataSource, null);
             dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), dummyDataSink, null);
+
+            ((ObservableDataProvider<String>) pullJSONWebServiceDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) dummyDataSink.getDataConsumer(String.class));
 
             Thread.sleep(10000);
             List<Object> receivedData = dummyDataSink.receivedData();
