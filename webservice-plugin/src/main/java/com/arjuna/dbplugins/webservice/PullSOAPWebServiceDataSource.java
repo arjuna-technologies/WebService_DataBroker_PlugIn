@@ -124,7 +124,7 @@ public class PullSOAPWebServiceDataSource implements DataSource
     @PreDeactivated
     public void deactivate()
     {
-    	_invocationTimerTask.stop();
+        _invocationTimerTask.stop();
         _timer               = null;
         _invocationTimerTask = null;
     }
@@ -136,9 +136,9 @@ public class PullSOAPWebServiceDataSource implements DataSource
 
     private class InvocationTimerTask extends TimerTask
     {
-    	public InvocationTimerTask()
-    	{	
-    	}
+        public InvocationTimerTask()
+        {
+        }
 
         @Override
         public void run()
@@ -214,7 +214,7 @@ public class PullSOAPWebServiceDataSource implements DataSource
         Set<Class<?>> dataProviderDataClasses = new HashSet<Class<?>>();
 
         dataProviderDataClasses.add(Document.class);
-        
+
         return dataProviderDataClasses;
     }
 
@@ -238,7 +238,7 @@ public class PullSOAPWebServiceDataSource implements DataSource
 
     private Timer               _timer;
     private InvocationTimerTask _invocationTimerTask;
-    
+
     private String                 _name;
     private Map<String, String>    _properties;
     private DataFlow               _dataFlow;

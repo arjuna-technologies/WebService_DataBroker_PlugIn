@@ -87,7 +87,7 @@ public class PushSOAPWebServiceDataSink implements DataSink
     @Override
     public void setDataFlow(DataFlow dataFlow)
     {
-    	_dataFlow = dataFlow;
+        _dataFlow = dataFlow;
     }
 
     public void consume(Document data)

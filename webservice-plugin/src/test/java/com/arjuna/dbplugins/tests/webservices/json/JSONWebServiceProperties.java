@@ -24,7 +24,7 @@ public class JSONWebServiceProperties
         }
         catch (IOException ioException)
         {
-        	_jsonWebServiceProperties = null;
+            _jsonWebServiceProperties = null;
             _loaded = false;
         }
     }

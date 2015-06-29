@@ -115,7 +115,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     public void deactivate()
     {
         logger.log(Level.FINER, "PullJSONWebServiceDataSource.deactivate");
-    	_invocationTimerTask.stop();
+        _invocationTimerTask.stop();
         _timer               = null;
         _invocationTimerTask = null;
     }
@@ -127,9 +127,9 @@ public class PullJSONWebServiceDataSource implements DataSource
 
     private class InvocationTimerTask extends TimerTask
     {
-    	public InvocationTimerTask()
-    	{	
-    	}
+        public InvocationTimerTask()
+        {
+        }
 
         @Override
         public void run()
@@ -139,7 +139,7 @@ public class PullJSONWebServiceDataSource implements DataSource
             String json = null;
             try
             {
-            	String        token = _username + ":" + _password;
+                String        token = _username + ":" + _password;
                 String        base64Token = Base64.encodeBytes(token.getBytes(StandardCharsets.UTF_8));
                 ClientRequest request = new ClientRequest(_serviceURL);
                 request.accept(MediaType.APPLICATION_JSON);
@@ -175,7 +175,7 @@ public class PullJSONWebServiceDataSource implements DataSource
         Set<Class<?>> dataProviderDataClasses = new HashSet<Class<?>>();
 
         dataProviderDataClasses.add(String.class);
-        
+
         return dataProviderDataClasses;
     }
 
@@ -197,7 +197,7 @@ public class PullJSONWebServiceDataSource implements DataSource
 
     private Timer               _timer;
     private InvocationTimerTask _invocationTimerTask;
-    
+
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;

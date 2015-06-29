@@ -75,7 +75,7 @@ public class Document2TextDataProcessor implements DataProcessor
     @Override
     public void setDataFlow(DataFlow dataFlow)
     {
-    	_dataFlow = dataFlow;
+        _dataFlow = dataFlow;
     }
 
     public void consume(Document data)
@@ -84,11 +84,11 @@ public class Document2TextDataProcessor implements DataProcessor
 
         try
         {
-        	TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        	Transformer        transformer        = transformerFactory.newTransformer();
-        	transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        	StringWriter writer = new StringWriter();
-        	transformer.transform(new DOMSource(data), new StreamResult(writer));
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer        transformer        = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            StringWriter writer = new StringWriter();
+            transformer.transform(new DOMSource(data), new StreamResult(writer));
 
             _dataProvider.produce(writer.getBuffer().toString());
         }
