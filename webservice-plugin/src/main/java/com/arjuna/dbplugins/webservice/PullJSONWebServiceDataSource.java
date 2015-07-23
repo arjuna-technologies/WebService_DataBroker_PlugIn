@@ -27,6 +27,7 @@ import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 import com.arjuna.databroker.data.jee.annotation.PostActivated;
 import com.arjuna.databroker.data.jee.annotation.PostConfig;
 import com.arjuna.databroker.data.jee.annotation.PostCreated;
+import com.arjuna.databroker.data.jee.annotation.PostRecovery;
 import com.arjuna.databroker.data.jee.annotation.PreDeactivated;
 import com.arjuna.databroker.data.jee.annotation.PreDelete;
 
@@ -90,6 +91,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     }
 
     @PostCreated
+    @PostRecovery
     @PostConfig
     public void setup()
     {
@@ -123,6 +125,7 @@ public class PullJSONWebServiceDataSource implements DataSource
     @PreDelete
     public void shutdown()
     {
+        logger.log(Level.FINER, "PullJSONWebServiceDataSource.shutdown");
     }
 
     private class InvocationTimerTask extends TimerTask
