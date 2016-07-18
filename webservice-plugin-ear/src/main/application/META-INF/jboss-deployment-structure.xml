@@ -6,14 +6,14 @@
 
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
     <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
-    <sub-deployment name="webservice-plugin-1.0.0p2m2.jar">
+    <sub-deployment name="webservice-plugin-1.0.0.jar">
         <dependencies>
             <module name="deployment.databroker.ear.data-common.jar"/>
             <module name="deployment.databroker.ear.data-common-jee.jar"/>
             <module name="deployment.databroker.ear.data-core-jee.jar"/>
         </dependencies>
     </sub-deployment>
-    <sub-deployment name="xmlmonitor-1.0.0p2m2.jar">
+    <sub-deployment name="xmlmonitor-1.0.0.jar">
         <dependencies>
             <module name="deployment.databroker.ear.data-common.jar"/>
             <module name="deployment.databroker.ear.data-common-jee.jar"/>
