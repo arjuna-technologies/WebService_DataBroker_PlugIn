@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.arjuna.dbplugins</groupId>
         <artifactId>webservice-plugin-parent</artifactId>
-        <version>1.0.0p2m2</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>xmlmonitor</artifactId>
